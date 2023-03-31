@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -61,6 +62,13 @@ namespace JwtAuthen.Controllers
             //var roles = roleClaims.Select(x => x.Value).ToList();
 
             return Ok(new { userName, roles });
+        }
+
+        [HttpGet("GetToken"), Authorize]
+        public async Task<IActionResult> GetToken()
+        {
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
+            return Ok(accessToken);
         }
 
     }
